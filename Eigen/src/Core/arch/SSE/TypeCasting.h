@@ -70,7 +70,11 @@ template<> EIGEN_STRONG_INLINE Packet2d pcast<Packet4f, Packet2d>(const Packet4f
 }
 
 template<> EIGEN_STRONG_INLINE Packet2l pcast<Packet2d, Packet2l>(const Packet2d& a) {
+#ifndef _WIN32
   return _mm_set_epi64x(int64_t(a[1]), int64_t(a[0]));
+#else
+    return _mm_set_epi64x(int64_t(a.m128d_f64[1]), int64_t(a.m128d_f64[0]));
+#endif
   }
 
 template<> EIGEN_STRONG_INLINE Packet2d pcast<Packet2l, Packet2d>(const Packet2l& a) {
